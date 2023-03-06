@@ -24,10 +24,10 @@ export default function handleRequest(
     }
   }
   
-  console.log('::: req headers :::', headers)
+  // console.log('::: req headers :::', headers)
 
   const httpLink = createHttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'https://kelpie-backend.herokuapp.com/',
     headers,
     credentials: request.credentials ?? 'include', // or "same-origin" if your backend server is the same domain
   });

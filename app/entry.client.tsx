@@ -1,19 +1,19 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { RemixBrowser } from "@remix-run/react";
-import { startTransition, StrictMode } from "react";
-import { hydrateRoot } from "react-dom/client";
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { RemixBrowser } from '@remix-run/react';
+import { startTransition, StrictMode } from 'react';
+import { hydrateRoot } from 'react-dom/client';
 
 function Client() {
   const client = new ApolloClient({
     cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
-    uri: "http://localhost:4000/graphql"
+    uri: 'https://kelpie-backend.herokuapp.com/',
   });
 
   return (
     <ApolloProvider client={client}>
       <RemixBrowser />
     </ApolloProvider>
-  )
+  );
 }
 
 function hydrate() {
@@ -27,7 +27,7 @@ function hydrate() {
   });
 }
 
-if (typeof requestIdleCallback === "function") {
+if (typeof requestIdleCallback === 'function') {
   requestIdleCallback(hydrate);
 } else {
   // Safari doesn't support requestIdleCallback

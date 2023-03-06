@@ -12,7 +12,7 @@ const LOCATIONS_QUERY = gql`
 
 export default function Index() {
   const { data } = useQuery(LOCATIONS_QUERY);
-  // console.log('::: data from useQuery :::', data);
+  console.log('::: data from useQuery :::', data);
 
   return (
     <div>
