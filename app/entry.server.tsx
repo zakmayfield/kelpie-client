@@ -7,6 +7,7 @@ import {
   InMemoryCache,
   createHttpLink,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { getDataFromTree } from '@apollo/client/react/ssr';
 
 export default function handleRequest(
@@ -15,14 +16,35 @@ export default function handleRequest(
   responseHeaders: Headers, // Headers type from the Fetch API
   remixContext: EntryContext
 ) {
+  const headers: Record<string, string> = {};
+  
+  for (const [key, value] of Object.entries(request.headers)) {
+    if (typeof value === 'string') {
+      headers[key] = value;
+    }
+  }
+  
+  console.log('::: req headers :::', headers)
+
+  const httpLink = createHttpLink({
+    uri: 'http://localhost:4000/graphql',
+    headers,
+    credentials: request.credentials ?? 'include', // or "same-origin" if your backend server is the same domain
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    return {
+      headers: {
+        ...headers,
+        authorization: 'Bearer abc123',
+      },
+    };
+  });
+
   const client = new ApolloClient({
     ssrMode: true,
     cache: new InMemoryCache(),
-    link: createHttpLink({
-      uri: 'http://localhost:4000/graphql',
-      // headers: request.headers,
-      credentials: request.credentials ?? 'include', // or "same-origin" if your backend server is the same domain
-    }),
+    link: authLink.concat(httpLink),
   });
 
   const App = (
@@ -31,7 +53,6 @@ export default function handleRequest(
     </ApolloProvider>
   );
 
-  // TODO: update everything below this line
   return getDataFromTree(App).then(() => {
     // Extract the entirety of the Apollo Client cache's current state
     const initialState = client.extract();
