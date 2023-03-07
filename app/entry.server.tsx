@@ -24,8 +24,6 @@ export default function handleRequest(
     }
   }
   
-  // console.log('::: req headers :::', headers)
-
   const httpLink = createHttpLink({
     uri: 'https://kelpie-backend.herokuapp.com/',
     headers,
@@ -33,10 +31,11 @@ export default function handleRequest(
   });
 
   const authLink = setContext((_, { headers }) => {
+    console.log('headers check | authLink | ::: entry.server', headers)
     return {
       headers: {
         ...headers,
-        authorization: 'Bearer abc123',
+        // authorization: 'Bearer abc123',
       },
     };
   });
