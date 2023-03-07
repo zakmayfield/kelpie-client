@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@prisma/client": "^4.11.0",
     "@remix-run/express": "^1.14.0",
     "@remix-run/node": "^1.14.0",
     "@remix-run/react": "^1.14.0",

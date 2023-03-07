@@ -1,4 +1,6 @@
 import { gql, useQuery } from '@apollo/client';
+import { redirect } from '@remix-run/node';
+
 
 const LOCATIONS_QUERY = gql`
   query GetPets {
@@ -11,8 +13,22 @@ const LOCATIONS_QUERY = gql`
 `;
 
 export default function Index() {
-  const { data } = useQuery(LOCATIONS_QUERY);
+  const { data, loading, error } = useQuery(LOCATIONS_QUERY);
   console.log('::: data from useQuery :::', data);
+
+  if (loading) {
+    console.log('error', error)
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <p>Loading...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    console.log('error', error)
+    return redirect('/test')
+  }
 
   return (
     <div>
