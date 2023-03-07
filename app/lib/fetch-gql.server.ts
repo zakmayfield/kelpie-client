@@ -20,6 +20,7 @@ export async function fetchGql({
     }),
   };
 
+  // GRAPHQL_URL is either pointing to development server OR production server. Default is development.
   const url = process.env.GRAPHQL_URL ?? '';
 
   const res = await fetch(url, config);

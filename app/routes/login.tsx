@@ -52,6 +52,7 @@ export const action = async ({ request }: ActionArgs) => {
     }
   `;
 
+  // this is the response data from our login mutation, accurately coming through.
   const data = await fetchGql({
     operationName: 'Login',
     query,
@@ -59,11 +60,14 @@ export const action = async ({ request }: ActionArgs) => {
     request,
   });
 
-  // this is the response data from our login mutation, accurately coming through.
-  console.log('data from login.tsx | action :::', data.data.login.user);
+  if (data && data.data) {
+    console.log('data from login.tsx | action :::', data.data.login);
+  }
+
+  // // need to use this token from data to create a session
 
   // const session = await getSession();
-  // session.set('userId', data.data.login.user.id);
+  // session.set('token', user.data.login.token);
   // return redirect('/pets', {
   //   headers: {
   //     'Set-Cookie': await commitSession(session),
