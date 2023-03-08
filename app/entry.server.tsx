@@ -31,10 +31,11 @@ export default function handleRequest(
   });
 
   const authLink = setContext((_, { headers }) => {
-    console.log('headers check | authLink | ::: entry.server', headers)
+    // console.log('headers check | authLink | ::: entry.server', headers)
     return {
       headers: {
         ...headers,
+        // // need to figure out what to do here ***
         // authorization: 'Bearer abc123',
       },
     };
